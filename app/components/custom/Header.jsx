@@ -1,19 +1,18 @@
-
-
-
 "use client";
 import React, { useContext, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import { Button } from "../../../components/ui/button";
 import { UserContext } from "../../context/UserContext";
-import { LucideDownload } from "lucide-react";
+import { LucideDownload, Sparkles, ExternalLink, Rocket, User as UserIcon, Eye } from "lucide-react";
 import { ActionContext } from "../../context/ActionContext";
 import SignInPopUp from "./SignInPopUp";
+import { toast } from "sonner";
 
 function Header() {
   const { user } = useContext(UserContext);
   const router = useRouter();
+  const params = useParams();
   const { action, setAction } = useContext(ActionContext);
   const path = usePathname();
   const [openDialog, setOpenDialog] = useState(false);
@@ -29,58 +28,86 @@ function Header() {
     });
   };
 
+  const handleOpenLiveUrl = () => {
+    const workspaceId = params?.workspaceId || "live";
+    window.open(`/preview/${workspaceId}`, "_blank");
+    toast.success("Opened Direct Live Website Preview (No Sandbox Redirects)!");
+  };
+
   const handleLogoClick = () => {
     router.push("/");
   };
 
   return (
-    <div className="flex p-4 items-center justify-between bg-customPurple">
-      <Image
+    <header className="sticky top-0 z-50 flex px-6 py-3.5 items-center justify-between bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
+      {/* Brand Logo */}
+      <div 
         onClick={handleLogoClick}
-        src={"/logo.png"}
-        alt="logo"
-        width={40}
-        height={40}
-        className="cursor-pointer"
-      />
-      {!user?.name ? (
-        <div className="flex gap-3 ml-auto">
+        className="flex items-center gap-3 cursor-pointer group"
+      >
+        <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30 group-hover:scale-105 transition">
+          <Sparkles className="w-5 h-5" />
+        </div>
+        <div>
+          <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">
+            Craftly
+          </span>
+          <span className="ml-1.5 text-[10px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            Studio
+          </span>
+        </div>
+      </div>
+
+      {/* Navigation & Action Controls */}
+      <div className="flex items-center gap-3">
+        {path?.includes("workspace") && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleOpenLiveUrl}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:opacity-95 text-white text-xs font-semibold transition shadow-md shadow-indigo-600/20"
+              title="Open Direct Fullscreen Live Website (Zero Sandbox Redirects)"
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>Direct Live URL</span>
+            </button>
+          </div>
+        )}
+
+        {!user?.name ? (
           <Button
-            className="bg-purple-700 text-gray-300 rounded font-semibold px-2 hover:bg-customPurple"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold px-4 py-2 text-xs shadow-md shadow-indigo-600/25 transition"
             onClick={login}
           >
             Sign In
           </Button>
-          {/* <Button className="bg-purple-700 text-gray-300 rounded font-semibold px-2 hover:bg-customPurple">
-            Get Started
-          </Button> */}
-          
-        </div>
-      ) : (
-        path?.includes("workspace") && (
-          <div className="flex gap-2 items-center ml-auto">
-            <Button
-              variant="ghost"
-              className="bg-black text-white hover:bg-gray-800"
-              onClick={() => onAction("export")}
-            >
-              <LucideDownload /> Export
-            </Button>
-            <Button
-              className="bg-blue-500 text-white hover:bg-blue-600"
-              onClick={() => onAction("deploy")}
-            >
-              Deploy
-            </Button>
+        ) : (
+          <div 
+            onClick={() => router.push("/profile")}
+            className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-indigo-500/50 transition"
+          >
+            {user?.image ? (
+              <Image 
+                src={user.image} 
+                alt="user" 
+                width={26} 
+                height={26} 
+                className="rounded-full border border-indigo-500/50" 
+              />
+            ) : (
+              <UserIcon className="w-4 h-4 text-indigo-400" />
+            )}
+            <span className="text-xs font-semibold text-white max-w-[120px] truncate">
+              {user?.name || "My Account"}
+            </span>
           </div>
-        )
-      )}
-      {/* Include the SignInPopUp component */}
+        )}
+      </div>
+
       <SignInPopUp
         openDialog={openDialog}
         closeDialog={() => setOpenDialog(false)}
       />
-    </div>
+    </header>
   );
 }
 

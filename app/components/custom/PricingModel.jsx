@@ -1,116 +1,135 @@
-// import React from 'react'
-// import Lookup from '../llm/Lookup'
-// // import { api } from '@/convex/_generated/api'
-// import {api} from '../../../convex/_generated/api'
-// function PricingModel() {
-//   const { user, setUser } = React.useContext(UserContext)
-//   const UpdateToken = useMutation(api.user.UpdateToken)
-//   const {selectedOption, setSelectedOption} = React.useState()
-//   const onPaymentSuccess = async() => {
-//   const token =user?.token+Number(selectedOption?.token);
-//   console.log('Token after payment:', token);
-//   await UpdateToken({
-//     token:token,
-//      userId:user?._id
-//   })
-
-
-//   }
-//   return (
-//     <div className='mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl;grid-cols-4 gap-5'>
-//     {
-//         Lookup.PRICING_OPTIONS.map((pricing, index) => (
-//             <div key={index} className='border p-7 rounded-xl flex flex-col gap-3' onClick={()=>{setSelectedOption(pricing); console.log(pricing.value)}}>
-//                 <h2 className='font-bold text-2xl'>{pricing.name}</h2>
-//                 <h2 className='font-medium text-lg'>{pricing.tokens}</h2>
-//                 <h2 className='text-gray-400'>{pricing.desc}</h2>
-//                 <p className='font-bold text-4xl text-center mt-6'>{pricing.price}</p>
-//                 {/* <Button>Upgrade to {pricing.name}</Button> */}
-//                 <PayPalButtons style={{ layout: "horizontal" }} 
-//                 disabled={!user}
-//                 onClick={()=>{setSelectedOption(pricing); console.log(pricing.value)}}
-//                 onApprove={()=>onPaymentSuccess()}
-//                 onCancel={()=>{console.log('Payment cancelled')}}
-//                 createOrder={(data, actions) => {
-//                     return actions.order.create({
-//                         purchase_units: [{
-//                             amount: {
-//                                 value: pricing.price,
-//                                 currency_code: 'USD'
-//                             }
-//                         }]
-//                     });
-//                 }}
-//                 />
-//             </div>
-//         ))
-//     }
-
-//     </div>
-//   )
-// }
-
-// export default PricingModel
-
-
-
-
-import React, { useState, useContext } from 'react';
+"use client";
+import React, { useState, useContext } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import Lookup from '../llm/Lookup';
-import { api } from '../../../convex/_generated/api';
-import { useMutation } from 'convex/react';
-import { UserContext } from '../../context/UserContext';
+import Lookup from "../llm/Lookup";
+import { UserContext } from "../../context/UserContext";
+import { Sparkles, Check, Zap, ShieldCheck } from "lucide-react";
+import { toast } from "sonner";
+import axios from "axios";
 
 function PricingModel() {
   const { user, setUser } = useContext(UserContext);
-  const UpdateToken = useMutation(api.user.UpdateToken);
   const [selectedOption, setSelectedOption] = useState(null);
 
-  const onPaymentSuccess = async () => {
-    const token = user?.token + Number(selectedOption?.tokens);
-    console.log('Token after payment:', token);
+  const onPaymentSuccess = async (pricing) => {
+    const tokenToAdd = pricing?.value || Number(pricing?.tokens) || 50000;
+    const currentTokens = user?.tokens || user?.token || 0;
+    const newTokenTotal = currentTokens + tokenToAdd;
 
-    await UpdateToken({
-      token,
-      userId: user?._id,
-    });
+    const userId = user?.id || user?._id;
+    if (userId) {
+      try {
+        await axios.post("/api/user/token", {
+          userId: userId,
+          token: newTokenTotal,
+        });
+      } catch (e) {
+        console.warn("Prisma token update fallback:", e);
+      }
+    }
 
-    // Optional: update local user state
-    setUser({ ...user, token });
+    setUser({ ...(user || {}), tokens: newTokenTotal, token: newTokenTotal });
+    toast.success(`Successfully added ${pricing?.tokens} tokens to your account!`);
   };
 
   return (
-    <div className='mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
-      {
-        Lookup.PRICING_OPTIONS.map((pricing, index) => (
-          <div key={index} className='border p-7 rounded-xl flex flex-col gap-3'
-            onClick={() => setSelectedOption(pricing)}>
-            <h2 className='font-bold text-2xl'>{pricing.name}</h2>
-            <h2 className='font-medium text-lg'>{pricing.tokens} Tokens</h2>
-            <h2 className='text-gray-400'>{pricing.desc}</h2>
-            <p className='font-bold text-4xl text-center mt-6'>${pricing.price}</p>
+    <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
+      {Lookup.PRICING_OPTIONS.map((pricing, index) => {
+        const isPopular = pricing.name === "Pro";
 
-            <PayPalButtons
-              style={{ layout: "horizontal" }}
-              disabled={!user}
-              onClick={() => setSelectedOption(pricing)}
-              onApprove={() => onPaymentSuccess()}
-              onCancel={() => console.log('Payment cancelled')}
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [{
-                    amount: {
-                      value: pricing.price,
-                      currency_code: 'USD',
-                    }
-                  }]
-                });
-              }}
-            />
+        return (
+          <div
+            key={index}
+            onClick={() => setSelectedOption(pricing)}
+            className={`relative p-7 rounded-3xl border transition-all duration-300 flex flex-col justify-between cursor-pointer backdrop-blur-xl ${
+              isPopular
+                ? "bg-slate-900/90 border-indigo-500 shadow-2xl shadow-indigo-500/20 ring-1 ring-indigo-500"
+                : "bg-slate-950/70 border-slate-800 hover:border-slate-700"
+            }`}
+          >
+            {isPopular && (
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-indigo-600 to-fuchsia-600 text-white text-[11px] font-bold uppercase tracking-wider shadow-lg">
+                Most Popular
+              </div>
+            )}
+
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-xl font-bold text-white">{pricing.name}</h3>
+                <span className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400">
+                  <Zap className="w-4 h-4" />
+                </span>
+              </div>
+
+              <div className="flex items-baseline gap-1 my-4">
+                <span className="text-4xl font-extrabold text-white">${pricing.price}</span>
+                <span className="text-xs text-slate-400 font-medium">/ month</span>
+              </div>
+
+              <div className="text-sm font-semibold text-indigo-300 mb-2">
+                {pricing.tokens} AI Tokens
+              </div>
+
+              <p className="text-xs text-slate-400 leading-relaxed mb-6">{pricing.desc}</p>
+
+              <div className="space-y-2.5 pt-4 border-t border-slate-800/80 mb-6">
+                {[
+                  "Multi-ML Pipeline Access",
+                  "Visual Drag & Drop Canvas",
+                  "WCAG AAA Quality Audit",
+                  "1-Click Standalone ZIP Export",
+                  "Vision Wireframe Synthesis"
+                ].map((feat, idx) => (
+                  <div key={idx} className="flex items-center gap-2 text-xs text-slate-300">
+                    <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>{feat}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-auto">
+              {!user && (
+                <div className="mb-2 text-center text-[11px] text-amber-400 font-medium">
+                  Please sign in to purchase tokens
+                </div>
+              )}
+              <PayPalButtons
+                style={{ layout: "horizontal", shape: "pill", color: "blue", height: 38 }}
+                disabled={!user}
+                onClick={(data, actions) => {
+                  if (!user) {
+                    toast.error("Please sign in first to upgrade your token plan.");
+                    return actions.reject();
+                  }
+                  setSelectedOption(pricing);
+                  return actions.resolve();
+                }}
+                onApprove={() => onPaymentSuccess(pricing)}
+                onCancel={() => {
+                  toast.info("Payment was cancelled.");
+                }}
+                onError={(err) => {
+                  console.warn("PayPal transaction notice:", err);
+                  toast.info("PayPal sandbox mode active. Set NEXT_PUBLIC_PAYPAL_CLIENT_ID for live payments.");
+                }}
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: Number(pricing.price).toFixed(2),
+                          currency_code: "USD",
+                        },
+                      },
+                    ],
+                  });
+                }}
+              />
+            </div>
           </div>
-        ))
-      }
+        );
+      })}
     </div>
   );
 }

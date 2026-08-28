@@ -1,6 +1,4 @@
-
 export default {
-
   DEFAULT_FILE: {
     '/public/index.html': {
       code: `<!DOCTYPE html>
@@ -8,35 +6,44 @@ export default {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Craftly App</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
+  <body class="bg-slate-950 text-slate-100 antialiased">
     <div id="root"></div>
   </body>
 </html>`
     },
     '/App.css': {
       code: `
-            @tailwind base;
+@tailwind base;
 @tailwind components;
-@tailwind utilities;`
+@tailwind utilities;
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+`
     },
     '/tailwind.config.js': {
       code: `
-            /** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
+    "./**/*.{js,jsx,ts,tsx}"
   ],
   theme: {
     extend: {},
   },
   plugins: [],
-}`
+}
+`
     },
     '/postcss.config.js': {
-      code: `/** @type {import('postcss-load-config').Config} */
+      code: `
+/** @type {import('postcss-load-config').Config} */
 const config = {
   plugins: {
     tailwindcss: {},
@@ -48,27 +55,14 @@ export default config;
     }
   },
   DEPENDANCY: {
-
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    autoprefixer: "^10.0.0",
+    "autoprefixer": "^10.0.0",
     "uuid4": "^2.0.3",
-    "tailwind-merge": "^2.4.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
-    "lucide-react": "^0.469.0",
-    "react-router-dom": "^7.1.1",
-    "firebase": "^11.1.0",
-    "@google/generative-ai": "^0.21.0",
-    "date-fns": "^4.1.0",
-    "react-chartjs-2": "^5.3.0",
-    "chart.js": "^4.4.7",
-    "@react-dnd/invariant": "^2.0.0",
-    "@react-dnd/shallowequal": "^2.0.0",
-    "dnd-core": "12.0.1",
-    "react-dnd": "^14.0.0",  // added react-dnd
-    "react-dnd-html5-backend": "^14.0.0"  // added react-dnd-html5-backend
-  },
-
-
-
-}
+    "lucide-react": "^0.471.2",
+    "date-fns": "^4.1.0"
+  }
+};
