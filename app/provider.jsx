@@ -4,8 +4,6 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { MessageContext } from "./context/MessageContext";
 import { UserContext } from "./context/UserContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { useConvex } from "convex/react";
-import { api } from "../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar";
 import Header from "./components/custom/Header";
@@ -15,7 +13,6 @@ import Footer from "./components/custom/Footer";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 function Provider({ children }) {
-  const convex = useConvex();
   const router = useRouter();
   const [messages, setMessages] = useState([]);
   const [user, setUser] = useState(null);
@@ -28,19 +25,6 @@ function Provider({ children }) {
         if (stored) {
           const parsedUser = JSON.parse(stored);
           setUser(parsedUser);
-
-          if (convex && api?.user?.GetUser && parsedUser?.email) {
-            try {
-              const remoteUser = await convex.query(api.user.GetUser, {
-                email: parsedUser.email,
-              });
-              if (remoteUser) {
-                setUser(remoteUser);
-              }
-            } catch (err) {
-              console.warn("Could not sync remote user from Convex:", err);
-            }
-          }
         }
       } catch (e) {
         console.warn("Error reading user storage:", e);
