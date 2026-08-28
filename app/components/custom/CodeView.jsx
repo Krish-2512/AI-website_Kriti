@@ -26,7 +26,7 @@ function CodeView() {
   const [selectSection, setSelectSection] = useState("preview"); // preview | visual | code
   const [files, setFiles] = useState(data?.DEFAULT_FILE || {});
   const [loading, setLoading] = useState(false);
-  const [projectTitle, setProjectTitle] = useState("Craftly Web App");
+  const [projectTitle, setProjectTitle] = useState("Kriti Web App");
   const { action } = useContext(ActionContext);
 
   useEffect(() => {

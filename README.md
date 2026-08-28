@@ -1,4 +1,4 @@
-# 🚀 Craftly — Multi-Pipeline Machine Learning Web Studio
+# 🚀 Kriti AI Studio — Multi-Pipeline Machine Learning Web Studio
 
 > **Transform natural language, voice commands, and hand-drawn wireframes into production-ready React web applications powered by 7+ intelligent ML pipelines.**
 
@@ -6,7 +6,7 @@
 
 ## 🌟 Overview & Architecture
 
-Craftly is an AI-driven text-to-website synthesis studio designed for developers, designers, and creators. Unlike basic single-prompt wrappers, Craftly coordinates **7+ specialized Machine Learning and Computer Vision pipelines** to classify intent, compute WCAG-compliant harmonic color theory, translate wireframes into JSX, perform automated AST self-healing, and provide real-time UI/UX quality auditing.
+**Kriti AI Studio** is an AI-driven text-to-website synthesis platform designed for developers, designers, and creators. Unlike basic single-prompt wrappers, Kriti coordinates **7+ specialized Machine Learning and Computer Vision pipelines** to classify intent, compute WCAG-compliant harmonic color theory, translate wireframes into JSX, perform automated AST self-healing, and provide real-time UI/UX quality auditing.
 
 ```mermaid
 graph TD

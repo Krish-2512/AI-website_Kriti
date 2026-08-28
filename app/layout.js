@@ -14,8 +14,8 @@ const montserrat = Roboto({
 });
 
 export const metadata = {
-  title: "Website AI",
-  description: "A Website which generate websites",
+  title: "Kriti AI Studio — Multi-Pipeline AI Web Engineering & Live Sandbox",
+  description: "Generate full-stack React web applications from natural language prompts, voice commands, and wireframe sketches with automated ML color harmony and live sandbox editing.",
 };
 
 export default function RootLayout({ children }) {

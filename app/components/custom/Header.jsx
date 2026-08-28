@@ -50,16 +50,31 @@ function Header() {
         </div>
         <div>
           <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">
-            Craftly
+            Kriti
           </span>
           <span className="ml-1.5 text-[10px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-            Studio
+            AI Studio
           </span>
         </div>
       </div>
 
       {/* Navigation & Action Controls */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2.5">
+        {/* Pricing / Subscription link button */}
+        <button
+          onClick={() => router.push("/pricing")}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-amber-500/50 text-slate-300 hover:text-white text-xs font-semibold transition"
+          title="View Subscription & Token Plans"
+        >
+          <Zap className="w-3.5 h-3.5 text-amber-400" />
+          <span>Pricing</span>
+          {user?.token || user?.tokens ? (
+            <span className="ml-1 px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-300 text-[10px] font-mono border border-amber-500/20">
+              {Number(user?.tokens || user?.token).toLocaleString()}
+            </span>
+          ) : null}
+        </button>
+
         {path?.includes("workspace") && (
           <div className="flex items-center gap-2">
             <button

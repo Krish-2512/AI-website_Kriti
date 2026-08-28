@@ -55,7 +55,7 @@ function WorkspaceHistory() {
 
           {workSpaceHistory?.length > 0 ? (
             workSpaceHistory.map((workspace, index) => {
-              let firstPrompt = "Craftly Website";
+              let firstPrompt = "Kriti Website";
               try {
                 const parsed = JSON.parse(workspace.messages);
                 firstPrompt = parsed[0]?.content || "Website Project";

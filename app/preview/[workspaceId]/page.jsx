@@ -56,7 +56,7 @@ export default function FullscreenPreviewPage() {
     <div className="w-screen h-screen bg-slate-950 overflow-auto">
       <iframe
         srcDoc={html}
-        title="Craftly Fullscreen Preview"
+        title="Kriti Fullscreen Preview"
         className="w-full h-full border-none min-h-screen"
       />
     </div>

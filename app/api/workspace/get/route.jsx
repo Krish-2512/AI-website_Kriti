@@ -19,7 +19,7 @@ export async function POST(req) {
         success: true,
         workspace: {
           id: workspaceId,
-          messages: JSON.stringify([{ role: "ai", content: "Welcome to your Craftly workspace!" }]),
+          messages: JSON.stringify([{ role: "ai", content: "Welcome to your Kriti AI workspace!" }]),
           files: null,
         }
       });

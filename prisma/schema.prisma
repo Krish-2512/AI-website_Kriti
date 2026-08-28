@@ -1,4 +1,4 @@
-// Prisma Schema for Craftly AI Studio
+// Prisma Schema for Kriti AI Studio
 // Designed for PostgreSQL / SQLite production & local environments
 
 generator client {

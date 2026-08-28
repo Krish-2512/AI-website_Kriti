@@ -29,7 +29,7 @@ export default function VisualBuilder({
   setFiles, 
   workspaceId = "default", 
   currentPrompt = "", 
-  projectTitle = "Craftly Website" 
+  projectTitle = "Kriti Website" 
 }) {
   // Initialize sections tailored to user's current prompt/website
   const [sections, setSections] = useState(() => {

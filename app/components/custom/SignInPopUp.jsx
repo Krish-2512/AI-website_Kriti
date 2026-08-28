@@ -105,7 +105,7 @@ function SignInPopUp({ openDialog, closeDialog }) {
             </div>
           </div>
           <DialogTitle className="text-xl font-bold text-center text-white">
-            Welcome to Craftly Studio
+            Welcome to Kriti AI Studio
           </DialogTitle>
           <DialogDescription className="text-center text-slate-400 text-xs mt-1">
             Sign in to create, synthesize, audit, and deploy your AI-generated React websites.

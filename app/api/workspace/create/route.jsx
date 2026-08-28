@@ -11,12 +11,12 @@ export async function POST(req) {
     // If userId not provided or not in DB, ensure a fallback user exists
     if (!targetUserId) {
       const defaultUser = await prisma.user.upsert({
-        where: { email: "creator@craftly.ai" },
+        where: { email: "creator@kriti.ai" },
         update: {},
         create: {
           id: uuid4(),
-          name: "Craftly Creator",
-          email: "creator@craftly.ai",
+          name: "Kriti Creator",
+          email: "creator@kriti.ai",
           tokens: 50000,
         },
       });

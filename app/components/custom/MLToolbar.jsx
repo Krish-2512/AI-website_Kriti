@@ -16,7 +16,7 @@ import { downloadProjectZip } from "../../../lib/exportZip";
 import { toast } from "sonner";
 import axios from "axios";
 
-export default function MLToolbar({ files, setFiles, currentPrompt = "", projectTitle = "Craftly App" }) {
+export default function MLToolbar({ files, setFiles, currentPrompt = "", projectTitle = "Kriti App" }) {
   const [openAudit, setOpenAudit] = useState(false);
   const [openPalette, setOpenPalette] = useState(false);
   const [openVision, setOpenVision] = useState(false);

@@ -30,7 +30,7 @@ export async function POST(req) {
     console.error("Prisma user upsert error:", error);
     return NextResponse.json({
       success: true,
-      user: { name: "Demo User", email: "demo@craftly.ai", tokens: 50000 }
+      user: { name: "Demo User", email: "demo@kriti.ai", tokens: 50000 }
     });
   }
 }

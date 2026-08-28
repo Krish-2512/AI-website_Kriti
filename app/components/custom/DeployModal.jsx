@@ -14,7 +14,7 @@ import {
 import { toast } from "sonner";
 import { downloadProjectZip } from "@/lib/exportZip";
 
-export default function DeployModal({ isOpen, onClose, files, htmlContent, projectTitle = "Craftly Website" }) {
+export default function DeployModal({ isOpen, onClose, files, htmlContent, projectTitle = "Kriti Website" }) {
   const [webhookUrl, setWebhookUrl] = useState("");
   const [isDeploying, setIsDeploying] = useState(false);
 
@@ -140,7 +140,7 @@ export default function DeployModal({ isOpen, onClose, files, htmlContent, proje
               <h4 className="text-sm font-bold text-white">Automated Webhook Deploy Trigger</h4>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Paste your Netlify/Vercel build webhook URL to trigger an autonomous cloud build directly from Craftly.
+              Paste your Netlify/Vercel build webhook URL to trigger an autonomous cloud build directly from Kriti AI Studio.
             </p>
             <div className="flex gap-2">
               <input

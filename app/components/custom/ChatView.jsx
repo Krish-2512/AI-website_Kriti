@@ -184,7 +184,7 @@ function ChatView() {
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-xs font-bold text-white">Craftly AI Assistant</h3>
+            <h3 className="text-xs font-bold text-white">Kriti AI Assistant</h3>
             <p className="text-[10px] text-slate-400">Prisma DB & ML Pipeline Active</p>
           </div>
         </div>

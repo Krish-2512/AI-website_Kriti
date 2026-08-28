@@ -59,14 +59,61 @@ const pricingClick=()=>{
           <SidebarGroup />
           
         </SidebarContent>
-        <SidebarFooter>
-          {user?.name?(<div className="bg-gray-900 flex flex-col"> 
-          {/* <div className="flex p-2 text-md gap-2 cursor-pointer"  onClick={handleProfileClick}><SettingsIcon /></div> */}
-          <div className="flex p-2 text-md gap-2 cursor-pointer" onClick={handleSignOut}><LogOut />  SignOut</div>
-          <div className="flex p-2 text-md gap-2 cursor-pointer">{user &&<Image className="rounded-full cursor-pointer" onClick={handleProfileClick} src={user?.image||null} alt="user" width={30} height={30} />} <h2 className="font-semibold text-white" onClick={handleProfileClick}>{user?.name||null}</h2></div>
-          <div className="flex p-2 text-md gap-2 cursor-pointer"  onClick={pricingClick}>My Subscription </div>
-         </div>):(<div></div>)}
-         
+        <SidebarFooter className="p-3 bg-slate-950 border-t border-slate-800/80">
+          {user?.name ? (
+            <div className="flex flex-col gap-2">
+              {/* Token balance / Subscription Quick Link */}
+              <div 
+                onClick={pricingClick}
+                className="p-3 rounded-2xl bg-gradient-to-br from-indigo-950/60 to-purple-950/60 border border-indigo-500/30 hover:border-indigo-500/60 cursor-pointer transition group shadow-lg"
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-300">My Subscription</span>
+                  <span className="text-[10px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">Upgrade</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-slate-400">Tokens:</span>
+                  <span className="text-sm font-extrabold text-white font-mono">
+                    {Number(user?.tokens || user?.token || 0).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+
+              {/* User Profile info */}
+              <div 
+                onClick={handleProfileClick}
+                className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-900/80 border border-slate-800 cursor-pointer hover:bg-slate-800 transition"
+              >
+                {user?.image ? (
+                  <Image
+                    className="rounded-full border border-indigo-500/40"
+                    src={user.image}
+                    alt="user"
+                    width={28}
+                    height={28}
+                  />
+                ) : null}
+                <div className="flex flex-col flex-1 min-w-0">
+                  <span className="text-xs font-semibold text-white truncate">{user?.name}</span>
+                  <span className="text-[10px] text-slate-400 truncate">{user?.email}</span>
+                </div>
+              </div>
+
+              <div 
+                onClick={handleSignOut}
+                className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-rose-400 hover:bg-rose-500/10 rounded-xl cursor-pointer transition"
+              >
+                <LogOut className="w-3.5 h-3.5" /> Sign Out
+              </div>
+            </div>
+          ) : (
+            <div 
+              onClick={pricingClick}
+              className="p-3 rounded-2xl bg-indigo-950/40 border border-indigo-500/20 text-center cursor-pointer hover:bg-indigo-900/40 transition"
+            >
+              <span className="text-xs font-semibold text-indigo-300">View Subscription Plans</span>
+            </div>
+          )}
         </SidebarFooter>
       </Sidebar>
     )
