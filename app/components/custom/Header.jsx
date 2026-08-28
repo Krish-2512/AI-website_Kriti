@@ -4,7 +4,7 @@ import { usePathname, useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import { Button } from "../../../components/ui/button";
 import { UserContext } from "../../context/UserContext";
-import { LucideDownload, Sparkles, ExternalLink, Rocket, User as UserIcon, Eye } from "lucide-react";
+import { LucideDownload, Sparkles, ExternalLink, Rocket, User as UserIcon, Eye, Zap } from "lucide-react";
 import { ActionContext } from "../../context/ActionContext";
 import SignInPopUp from "./SignInPopUp";
 import { toast } from "sonner";
