@@ -4,7 +4,7 @@ import { usePathname, useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import { Button } from "../../../components/ui/button";
 import { UserContext } from "../../context/UserContext";
-import { LucideDownload, Sparkles, ExternalLink, Rocket, User as UserIcon, Eye, Zap } from "lucide-react";
+import { LucideDownload, Sparkles, ExternalLink, Rocket, User as UserIcon, Eye, Zap, Users } from "lucide-react";
 import { ActionContext } from "../../context/ActionContext";
 import SignInPopUp from "./SignInPopUp";
 import { toast } from "sonner";
@@ -60,6 +60,16 @@ function Header() {
 
       {/* Navigation & Action Controls */}
       <div className="flex items-center gap-2.5">
+        {/* Collaborative Spaces Link */}
+        <button
+          onClick={() => router.push("/spaces")}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-indigo-500/50 text-slate-300 hover:text-white text-xs font-semibold transition"
+          title="Team Code Spaces & Shared Hubs"
+        >
+          <Users className="w-3.5 h-3.5 text-indigo-400" />
+          <span>Spaces</span>
+        </button>
+
         {/* Pricing / Subscription link button */}
         <button
           onClick={() => router.push("/pricing")}

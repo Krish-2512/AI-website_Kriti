@@ -11,22 +11,67 @@ datasource db {
 }
 
 model User {
-  id         String      @id @default(uuid())
-  name       String
-  email      String      @unique
-  image      String?
-  tokens     Int         @default(50000)
-  workspaces Workspace[]
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  id               String            @id @default(uuid())
+  name             String
+  email            String            @unique
+  image            String?
+  tokens           Int               @default(50000)
+  workspaces       Workspace[]
+  ownedSpaces      Space[]           @relation("SpaceOwner")
+  spaceMemberships SpaceMember[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model Space {
+  id          String          @id @default(uuid())
+  name        String
+  description String?
+  icon        String          @default("🚀")
+  inviteCode  String          @unique
+  ownerId     String
+  owner       User            @relation("SpaceOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members     SpaceMember[]
+  workspaces  Workspace[]
+  activities  SpaceActivity[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model SpaceMember {
+  id        String   @id @default(uuid())
+  spaceId   String
+  space     Space    @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      String   @default("MEMBER") // OWNER, EDITOR, VIEWER
+  joinedAt  DateTime @default(now())
+
+  @@unique([spaceId, userId])
 }
 
 model Workspace {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  messages  String   // JSON string of chat messages
-  files     String?  // JSON string of generated files
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String          @id @default(uuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  spaceId     String?
+  space       Space?          @relation(fields: [spaceId], references: [id], onDelete: SetNull)
+  title       String?         @default("Kriti Web App")
+  isShared    Boolean         @default(false)
+  messages    String          // JSON string of chat messages
+  files       String?         // JSON string of generated files
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 }
+
+model SpaceActivity {
+  id        String   @id @default(uuid())
+  spaceId   String
+  space     Space    @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  userName  String
+  userImage String?
+  action    String   // e.g. "created_project", "remixed_project", "joined_space"
+  details   String?
+  createdAt DateTime @default(now())
+}
+

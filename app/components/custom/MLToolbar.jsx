@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { 
   Sparkles, ShieldCheck, Palette, Eye, Type, Zap, 
-  Download, RefreshCw, Layers, Sliders, LayoutTemplate, Activity, Brain
+  Download, RefreshCw, Layers, Sliders, LayoutTemplate, Activity, Brain, Users, Share2
 } from "lucide-react";
 import MLAuditModal from "./MLAuditModal";
 import PaletteStudioModal from "./PaletteStudioModal";
@@ -12,17 +12,22 @@ import ThemeCustomizerModal from "./ThemeCustomizerModal";
 import ComponentLibraryModal from "./ComponentLibraryModal";
 import MLOpsTelemetryModal from "./MLOpsTelemetryModal";
 import MLDeepDiveModal from "./MLDeepDiveModal";
+import ShareToSpaceModal from "./ShareToSpaceModal";
 import { downloadProjectZip } from "../../../lib/exportZip";
 import { toast } from "sonner";
 import axios from "axios";
+import { useParams } from "next/navigation";
 
 export default function MLToolbar({ files, setFiles, currentPrompt = "", projectTitle = "Kriti App" }) {
+  const params = useParams();
+  const workspaceId = params?.workspaceId || "default";
   const [openAudit, setOpenAudit] = useState(false);
   const [openPalette, setOpenPalette] = useState(false);
   const [openVision, setOpenVision] = useState(false);
   const [openCopy, setOpenCopy] = useState(false);
   const [openTheme, setOpenTheme] = useState(false);
   const [openComponents, setOpenComponents] = useState(false);
+  const [openShareSpace, setOpenShareSpace] = useState(false);
   const [openTelemetry, setOpenTelemetry] = useState(false);
   const [openDeepDive, setOpenDeepDive] = useState(false);
   const [isHealing, setIsHealing] = useState(false);
@@ -155,6 +160,15 @@ export default function MLToolbar({ files, setFiles, currentPrompt = "", project
         {/* Right: Quick Action Buttons */}
         <div className="flex items-center gap-2">
           <button
+            onClick={() => setOpenShareSpace(true)}
+            className="flex items-center gap-1 px-3 py-1 rounded-lg bg-indigo-950/60 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/30 transition shadow-sm"
+            title="Publish to Collaborative Team Space"
+          >
+            <Users className="w-3.5 h-3.5" />
+            <span>Share to Space</span>
+          </button>
+
+          <button
             onClick={handleQuickHeal}
             disabled={isHealing}
             className="flex items-center gap-1 px-3 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-200 hover:text-white border border-slate-700 transition disabled:opacity-50"
@@ -177,6 +191,12 @@ export default function MLToolbar({ files, setFiles, currentPrompt = "", project
       </div>
 
       {/* Modals */}
+      <ShareToSpaceModal
+        isOpen={openShareSpace}
+        onClose={() => setOpenShareSpace(false)}
+        workspaceId={workspaceId}
+        projectTitle={projectTitle}
+      />
       <MLDeepDiveModal
         isOpen={openDeepDive}
         onClose={() => setOpenDeepDive(false)}

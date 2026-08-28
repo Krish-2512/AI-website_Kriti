@@ -11,7 +11,7 @@ import {
   } from "../../../components/ui/sidebar"
 
  
-import { LogOut, MessageCircleCode, SettingsIcon} from "lucide-react"
+import { LogOut, MessageCircleCode, SettingsIcon, Users } from "lucide-react"
 import { useContext } from "react"
 import { UserContext } from "../../context/UserContext"
 import { useRouter } from "next/navigation"
@@ -52,8 +52,18 @@ const pricingClick=()=>{
         <SidebarHeader className='p-3' />
      
           <Image className='rounded-full' src={user?.image||'/logo.png'} alt='User Image' width={40} height={40}  onClick={handleLogoClick}></Image>
-        <SidebarContent className='p-5'>
-          <Button>  <MessageCircleCode/> Start new chat</Button>
+        <SidebarContent className='p-5 space-y-3'>
+          <Button onClick={() => router.push("/")} className="w-full flex items-center justify-center gap-2">  
+            <MessageCircleCode className="w-4 h-4" /> Start new chat
+          </Button>
+
+          <button
+            onClick={() => router.push("/spaces")}
+            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl bg-indigo-950/40 border border-indigo-500/20 hover:border-indigo-500/50 hover:bg-indigo-900/40 text-indigo-200 text-xs font-semibold transition"
+          >
+            <Users className="w-4 h-4 text-indigo-400" />
+            <span>Team Spaces</span>
+          </button>
         
           <WorkspaceHistory/>
           <SidebarGroup />
