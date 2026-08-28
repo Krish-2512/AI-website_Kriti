@@ -6,6 +6,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    webpackBuildWorker: false,
+  },
   images: {
     unoptimized: true,
     domains: [
